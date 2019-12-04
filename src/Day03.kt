@@ -11,17 +11,6 @@ import kotlin.math.abs
 class Day03() {
     data class Vector(val dir: Direction, val steps: Int)
     data class Point (val x: Int, val y: Int)
-    data class Blabla(val point: Point, val steps: Int) {
-        override fun equals(other: Any?): Boolean
-        {
-            if (other !is Blabla) return false
-            return point == (other as Blabla).point
-        }
-        override fun hashCode(): Int
-        {
-            return point.hashCode()
-        }
-    }
     enum class Direction { UP, DOWN, LEFT, RIGHT }
 
     // https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/map.html
@@ -71,8 +60,7 @@ class Day03() {
      fun part2() : Any
      {
         val (lineOne, lineTwo) = myInput.map { vectorList ->
-            val set = mutableSetOf<Point>()
-            val set2 = mutableMapOf<Point, Int>()
+            val set = mutableMapOf<Point, Int>()
             var steps = 0
             var position = Point(0, 0)
             for (vector in vectorList)
@@ -87,12 +75,10 @@ class Day03() {
                         Direction.LEFT -> Point(position.x-1, position.y)
                         Direction.RIGHT -> Point(position.x+1, position.y)
                     }
-                    set.add(position)
-                    set2[position] = steps
+                    set[position] = steps
                 }
             }
-            //set
-            set2
+            set
         }
          val output = (lineOne.keys).intersect(lineTwo.keys).sortedBy { abs(it.x) + abs(it.x) }.map { point ->
                 val first = lineOne.keys.single { it == point }
